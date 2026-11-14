@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://nop0r701nv43"]
+
+[ext_resource type="Script" path="res://scenes/prototype/rhythm.gd" id="1_rhythm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onvpj"]
+bg_color = Color(0.6, 0.6, 0.6, 0.3372549)
+corner_radius_top_left = 256
+corner_radius_top_right = 256
+corner_radius_bottom_right = 256
+corner_radius_bottom_left = 256
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_57btp"]
+bg_color = Color(0.87070966, 0.87070984, 0.8707095, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.38928655, 0.3892867, 0.38928637, 1)
+corner_radius_top_left = 256
+corner_radius_top_right = 256
+corner_radius_bottom_right = 256
+corner_radius_bottom_left = 256
+
+[node name="Control" type="Control" unique_id=283911937]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rhythm")
+
+[node name="Panel" type="Panel" parent="." unique_id=430592110]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -121.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="CENTER" type="Panel" parent="Panel" unique_id=1432992706]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.0
+offset_top = -41.0
+offset_right = 41.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_onvpj")
+
+[node name="Panel" type="Panel" parent="Panel/CENTER" unique_id=199668989]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="N0TE" type="Panel" parent="Panel" unique_id=221570377]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.0
+offset_top = -41.0
+offset_right = 41.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_57btp")
