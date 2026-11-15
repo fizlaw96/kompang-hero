@@ -3,7 +3,22 @@
 [ext_resource type="PackedScene" uid="uid://dm5kh4guhd8ab" path="res://scenes/game/game.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://dnqdcofkcnfao" path="res://assets/Libraries/enviroment/with npc/npc-hall-stage.png" id="2_dn67k"]
 
+[ext_resource type="AudioStream" path="res://assets/lagu/LEVEL1.mp3" id="3_song"]
+
 [node name="Level1" unique_id=1043797268 instance=ExtResource("1_base")]
+tutorial_title = "HOW TO PLAY"
+tutorial_text = "Notes roll from the drummers toward the big circle.
+
+D = hit GREEN notes from the left
+K = hit ORANGE notes from the right
+(or click / touch the left and right halves of the screen)
+
+Press when a note reaches the circle. Closer to the centre = better. Misses cost cash!
+
+Esc or P pauses."
+music = ExtResource("3_song")
+chart_file = "res://maps/level1.osu"
+tutorial_demo = "normal"
 
 [node name="Background" parent="." index="0" unique_id=1880236854]
 texture = ExtResource("2_dn67k")

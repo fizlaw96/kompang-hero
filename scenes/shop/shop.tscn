@@ -1,9 +1,9 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://3wd8c6bnpbwd"]
 
-[ext_resource type="Script" path="res://scenes/shop/shop.gd" id="1_shop"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/enviroment/without npc/wedding-kampung-stage.png" id="2_bg"]
+[ext_resource type="Script" uid="uid://c4yv1swy75oa4" path="res://scenes/shop/shop.gd" id="1_shop"]
+[ext_resource type="Texture2D" uid="uid://bs24aegchymie" path="res://assets/Libraries/enviroment/without npc/wedding-kampung-stage.png" id="2_bg"]
 
-[node name="Shop" type="Control"]
+[node name="Shop" type="Control" unique_id=60817456]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_shop")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=548735741]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +24,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=970770359]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.1, 0.02, 0.2, 0.6)
 
-[node name="Root" type="VBoxContainer" parent="."]
+[node name="Root" type="VBoxContainer" parent="." unique_id=678829173]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,15 +47,15 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 14
 
-[node name="Bar" type="HBoxContainer" parent="Root"]
+[node name="Bar" type="HBoxContainer" parent="Root" unique_id=508874324]
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="Root/Bar"]
+[node name="BackButton" type="Button" parent="Root/Bar" unique_id=82390719]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "< BACK"
 
-[node name="Title" type="Label" parent="Root/Bar"]
+[node name="Title" type="Label" parent="Root/Bar" unique_id=1939273240]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
@@ -65,19 +65,19 @@ theme_override_font_sizes/font_size = 40
 text = "SHOP"
 horizontal_alignment = 1
 
-[node name="CashLabel" type="Label" parent="Root/Bar"]
+[node name="CashLabel" type="Label" parent="Root/Bar" unique_id=1937325801]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 24
 
-[node name="List" type="VBoxContainer" parent="Root"]
+[node name="List" type="VBoxContainer" parent="Root" unique_id=1362957330]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="Toast" type="Label" parent="Root"]
+[node name="Toast" type="Label" parent="Root" unique_id=272839104]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24

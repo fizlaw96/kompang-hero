@@ -2,9 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://dm5kh4guhd8ab" path="res://scenes/game/game.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://co7e2xtcp4sa5" path="res://assets/Libraries/enviroment/without npc/port-klang-stage(secret level).png" id="2_stage"]
+[ext_resource type="Texture2D" uid="uid://vqkr5sh83gc5" path="res://assets/Libraries/sprites/villain/villain-kompang.png" id="4_4p4at"]
+[ext_resource type="AudioStream" uid="uid://bkh46pix8ic3e" path="res://assets/lagu/LEVEL4.mp3" id="9_song"]
 
 [node name="Level4" unique_id=1870823110 instance=ExtResource("1_base")]
 level = 4
+chart_file = "res://maps/level4.osu"
+tutorial_title = "EXPERT"
+tutorial_text = "Normal notes, long notes and bombs all at once.
+
+D = left, K = right. Mash purple bars, never press on red bombs.
+
+Good luck."
+tutorial_demo = "all"
+music = ExtResource("9_song")
 
 [node name="Background" parent="." index="0" unique_id=1880236854]
 texture = ExtResource("2_stage")
@@ -33,4 +44,72 @@ offset_top = -36.880005
 offset_right = -828.7551
 offset_bottom = 233.12
 
-[node name="Cutscene" type="CanvasLayer" parent="." index="6" unique_id=107754793]
+[node name="Drummer4" type="TextureRect" parent="." index="6" unique_id=1063053035]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.09
+anchor_top = 0.56
+anchor_right = 0.09
+anchor_bottom = 0.56
+offset_left = 683.32
+offset_top = -173.88
+offset_right = 811.885
+offset_bottom = 96.119995
+mouse_filter = 2
+texture = ExtResource("4_4p4at")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Drummer5" type="TextureRect" parent="." index="7" unique_id=1603207037]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.27
+anchor_top = 0.56
+anchor_right = 0.27
+anchor_bottom = 0.56
+offset_left = 524.95996
+offset_top = -130.88
+offset_right = 653.525
+offset_bottom = 139.12
+mouse_filter = 2
+texture = ExtResource("4_4p4at")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Drummer6" type="TextureRect" parent="." index="8" unique_id=1139857054]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.73
+anchor_top = 0.56
+anchor_right = 0.73
+anchor_bottom = 0.56
+offset_left = 44.039978
+offset_top = -75.880005
+offset_right = 172.60492
+offset_bottom = 194.12
+mouse_filter = 2
+texture = ExtResource("4_4p4at")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Drummer7" type="TextureRect" parent="." index="9" unique_id=2091037174]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.91
+anchor_top = 0.56
+anchor_right = 0.91
+anchor_bottom = 0.56
+offset_left = -108.32007
+offset_top = -36.880005
+offset_right = 20.244873
+offset_bottom = 233.12
+mouse_filter = 2
+texture = ExtResource("4_4p4at")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Cutscene" type="CanvasLayer" parent="." index="10" unique_id=107754793]

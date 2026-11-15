@@ -3,7 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://dm5kh4guhd8ab" path="res://scenes/game/game.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://fnm50fbad2b2" path="res://assets/Libraries/enviroment/without npc/wedding-hall-stage.png" id="2_stage"]
 
+[ext_resource type="AudioStream" path="res://assets/lagu/LEVEL3.mp3" id="9_song"]
+
 [node name="Level3" unique_id=510952934 instance=ExtResource("1_base")]
+tutorial_title = "NEW: BOMBS"
+tutorial_text = "RED bombs with a flashing warning ring are traps.\n\nDo NOT press that lane when a bomb reaches the circle. Hitting one fails the level instantly.\n\nLetting a bomb pass is perfectly safe. A Bomb Shield from the shop blocks one hit."
+music = ExtResource("9_song")
+chart_file = "res://maps/level3.osu"
+tutorial_demo = "bomb"
 level = 3
 
 [node name="Background" parent="." index="0" unique_id=1880236854]

@@ -56,10 +56,13 @@ func play(name: String, volume: float = 1.0, pitch: float = 1.0) -> void:
 	p.play()
 
 
-func start_music(bpm: float) -> void:
-	var stream: AudioStreamWAV = sounds["music"]
-	music_player.stream = stream
-	music_player.pitch_scale = bpm / 100.0
+func start_music(bpm: float, song: AudioStream = null) -> void:
+	if song != null:
+		music_player.stream = song
+		music_player.pitch_scale = 1.0
+	else:
+		music_player.stream = sounds["music"]
+		music_player.pitch_scale = bpm / 100.0
 	apply_settings()
 	music_player.play()
 

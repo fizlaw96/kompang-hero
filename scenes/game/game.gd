@@ -36,6 +36,18 @@ const COL_BOMB := Color(0.9, 0.12, 0.12)
 ## The .osu file's first uninherited timing point sets the scroll speed and music pitch.
 @export_file("*.osu") var chart_file := ""
 
+@export_group("Tutorial")
+## Shown when the level opens; gameplay waits until START is pressed. Leave the title empty for no tutorial.
+@export var tutorial_title := ""
+@export_multiline var tutorial_text := ""
+## Looping example animation shown in the tutorial popup.
+@export_enum("none", "normal", "long", "bomb", "all") var tutorial_demo := "none"
+
+@export_group("Music")
+## Song for this level. Leave empty to use the built-in synth loop.
+@export var music: AudioStream
+
+var tutorial_open := false
 var ref_score := 1
 var cfg: Dictionary
 var spb := 0.5
@@ -62,7 +74,7 @@ var fail_reason := ""
 
 var hold: Dictionary = {}
 var press_times: Array[float] = []
-var hit_at := [-9.0, -9.0, -9.0, -9.0]
+var hit_at := [-9.0, -9.0, -9.0, -9.0, -9.0, -9.0, -9.0, -9.0]
 var scared := [-9.0, -9.0, -9.0, -9.0]
 var clock := 0.0
 var drummer_offsets: Array[Vector2] = []
@@ -95,19 +107,40 @@ const STAGES := [
 
 
 @onready var background: TextureRect = $Background
-@onready var drummers: Array[TextureRect] = [$Drummer0, $Drummer1, $Drummer2, $Drummer3]
-@onready var idle_tex: Array[Texture2D] = [drummers[0].texture, drummers[1].texture, drummers[2].texture, drummers[3].texture]
+@onready var drummers: Array[TextureRect] = _find_drummers()
+@onready var idle_tex: Array[Texture2D] = _idle_textures()
+@onready var villain_hit_tex: Texture2D = preload("res://scenes/game/hit_villain.tres")
 @onready var miss_tex: Array[Texture2D] = [
 	preload("res://scenes/game/miss_red.tres"), preload("res://scenes/game/miss_blue.tres"),
 	preload("res://scenes/game/miss_brown.tres"), preload("res://scenes/game/miss_yellow.tres"),
 ]
+@onready var hit_tex: Array[Texture2D] = [
+	preload("res://scenes/game/hit_red.tres"), preload("res://scenes/game/hit_blue.tres"),
+	preload("res://scenes/game/hit_brown.tres"), preload("res://scenes/game/hit_yellow.tres"),
+]
+
+
+func _find_drummers() -> Array[TextureRect]:
+	var out: Array[TextureRect] = []
+	for i in 8:
+		var d := get_node_or_null("Drummer%d" % i) as TextureRect
+		if d != null:
+			out.append(d)
+	return out
+
+
+func _idle_textures() -> Array[Texture2D]:
+	var out: Array[Texture2D] = []
+	for d in drummers:
+		out.append(d.texture)
+	return out
 
 
 func _ready() -> void:
 	Save.current_level = level
 	# Keep the drummer layout authored in the scene (a level scene can override it too).
 	drummer_offsets.clear()
-	for i in 4:
+	for i in drummers.size():
 		drummer_offsets.append(Vector2(drummers[i].offset_left, drummers[i].offset_top))
 	# Level scenes set their own Background texture; this fallback keeps the base scene usable.
 	if background.texture == null:
@@ -151,6 +184,23 @@ func _ready() -> void:
 	_layout()
 	resized.connect(_layout)
 
+	if not tutorial_title.is_empty():
+		$Tutorial/Panel/Margin/Box/Title.text = tutorial_title
+		$Tutorial/Panel/Margin/Box/Body.text = tutorial_text
+		var demo: Control = $Tutorial/Panel/Margin/Box/Demo
+		demo.visible = tutorial_demo != "none"
+		if demo.visible:
+			$Tutorial/Panel/Margin/Box/Demo/Anim.play(tutorial_demo)
+		$Tutorial.visible = true
+		tutorial_open = true
+		$Tutorial/Panel/Margin/Box/StartButton.grab_focus()
+
+
+func _close_tutorial() -> void:
+	Sfx.play("click")
+	$Tutorial.visible = false
+	tutorial_open = false
+
 
 func _load_chart() -> Dictionary:
 	if chart_file.is_empty():
@@ -173,7 +223,7 @@ func _chart_from_osu(parsed: Dictionary) -> Dictionary:
 		out_notes.append({
 			"time": float(src.time),
 			"side": -1 if int(src.column) == 0 else 1,
-			"type": "long" if is_long else "normal",
+			"type": "long" if is_long else ("bomb" if bool(src.get("bomb", false)) else "normal"),
 			"end": end,
 		})
 		last = maxf(last, end if is_long else float(src.time))
@@ -249,6 +299,8 @@ func _quit() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if tutorial_open:
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		var code: int = event.physical_keycode
 		if code == KEY_ESCAPE or code == KEY_P:
@@ -268,13 +320,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	clock += delta
-	if not paused:
+	if not paused and not tutorial_open:
 		delta = minf(delta, 0.05)
 		if not over:
 			song_time += delta
 			if not music_started and song_time >= 0.0:
 				music_started = true
-				Sfx.start_music(60.0 / spb)
+				Sfx.start_music(60.0 / spb, music)
 			_update(delta)
 		else:
 			over_timer -= delta
@@ -287,11 +339,13 @@ func _process(delta: float) -> void:
 
 func _update_drummers() -> void:
 	var beat_phase := fposmod(song_time / spb, 1.0)
-	for i in 4:
+	for i in drummers.size():
 		var d := drummers[i]
 		var hit := exp(-(clock - float(hit_at[i])) * 8.0)
-		var scare := float(scared[i]) > clock - 0.35
-		d.texture = miss_tex[i] if scare else idle_tex[i]
+		var scare := i < 4 and float(scared[i]) > clock - 0.35
+		var striking := clock - float(hit_at[i]) < 0.14
+		var strike_tex: Texture2D = hit_tex[i] if i < 4 else villain_hit_tex
+		d.texture = miss_tex[i] if scare else (strike_tex if striking else idle_tex[i])
 		d.pivot_offset = Vector2(d.size.x * 0.5, d.size.y)
 		d.scale = Vector2.ONE * (1.0 + hit * 0.08)
 		var bob := sin(beat_phase * TAU) * 4.0 - hit * 8.0
@@ -319,17 +373,18 @@ func _update(delta: float) -> void:
 		charge = 0
 
 	for n in notes:
-		if n.res != "" and n.res != "pass":
-			continue
 		var off: float = (float(n.time) - song_time) * speed
 		if off > size.x:
 			break
 		if not n.anim and song_time >= float(n.time):
 			n.anim = true
 			if n.type == "bomb":
-				scared[n.owner] = clock
+				if n.owner != PLAYER:
+					scared[n.owner] = clock
 			else:
 				hit_at[n.owner] = clock
+				if drummers.size() > 4:
+					hit_at[n.owner + 4] = clock
 				Sfx.play("mate", 0.7, 0.9 + 0.08 * float(n.owner))
 		if n.res != "":
 			continue

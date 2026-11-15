@@ -12,10 +12,10 @@ const LEVELS := [
 # One chart per level. penalty = cash lost per mistake, density = note chance per slot,
 # half = also allow off-beat notes, long/bomb = chance of that note type per beat slot.
 const LEVEL_CFG := {
-	1: {"name": "Tutorial", "bpm": 90, "bars": 18, "penalty": 30, "density": 0.6, "half": true, "long": 0.0, "bomb": 0.0, "seed": 12},
-	2: {"name": "Long Notes", "bpm": 102, "bars": 20, "penalty": 70, "density": 0.65, "half": true, "long": 0.18, "bomb": 0.0, "seed": 22},
-	3: {"name": "Bomb Notes", "bpm": 118, "bars": 20, "penalty": 160, "density": 0.7, "half": true, "long": 0.0, "bomb": 0.18, "seed": 32},
-	4: {"name": "Expert", "bpm": 140, "bars": 28, "penalty": 450, "density": 0.82, "half": true, "long": 0.18, "bomb": 0.18, "seed": 42},
+	1: {"name": "Tutorial", "bpm": 98, "bars": 18, "penalty": 30, "density": 0.6, "half": true, "long": 0.0, "bomb": 0.0, "seed": 12},
+	2: {"name": "Long Notes", "bpm": 143, "bars": 20, "penalty": 70, "density": 0.65, "half": true, "long": 0.18, "bomb": 0.0, "seed": 22},
+	3: {"name": "Bomb Notes", "bpm": 136, "bars": 20, "penalty": 160, "density": 0.7, "half": true, "long": 0.0, "bomb": 0.18, "seed": 32},
+	4: {"name": "Expert", "bpm": 144, "bars": 28, "penalty": 450, "density": 0.82, "half": true, "long": 0.18, "bomb": 0.18, "seed": 42},
 }
 
 const SHOP := [

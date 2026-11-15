@@ -70,7 +70,9 @@ static func parse(path: String) -> Dictionary:
 			var end_ms := int(p[5].split(":")[0])
 			if end_ms > time_ms:
 				end = end_ms / 1000.0
-		notes.append({"time": time_ms / 1000.0, "column": column, "end": end})
+		# Kompang Hero extension: a tap note with hitsound 2 (whistle) is a bomb.
+		var bomb := end < 0.0 and (int(p[4]) & 2) != 0
+		notes.append({"time": time_ms / 1000.0, "column": column, "end": end, "bomb": bomb})
 
 	notes.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.time < b.time)
 	if notes.is_empty():

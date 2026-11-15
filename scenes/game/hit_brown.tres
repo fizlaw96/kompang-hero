@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/brown/play_kompang-brown.png" id="1"]
+
+[resource]
+atlas = ExtResource("1")
+region = Rect2(987, 0, 407, 543)

@@ -3,7 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://dm5kh4guhd8ab" path="res://scenes/game/game.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://cyy1ennqufnd2" path="res://assets/Libraries/enviroment/with npc/npc-village-stage.png" id="2_i68vy"]
 
+[ext_resource type="AudioStream" path="res://assets/lagu/LEVEL2.mp3" id="9_song"]
+
 [node name="Level2" unique_id=1917827811 instance=ExtResource("1_base")]
+tutorial_title = "NEW: LONG NOTES"
+tutorial_text = "A stretched PURPLE note is a long note.\n\nWhen its round head reaches the circle, press that lane's key (D or K), then MASH it quickly until the whole bar has passed.\n\nToo slow counts as a mistake."
+music = ExtResource("9_song")
+chart_file = "res://maps/level2.osu"
+tutorial_demo = "long"
 level = 2
 
 [node name="Background" parent="." index="0" unique_id=1880236854]

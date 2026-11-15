@@ -6,6 +6,272 @@
 [ext_resource type="Texture2D" uid="uid://b82v81r2uuywu" path="res://assets/Libraries/sprites/blue/blue-kompang.png" id="4_blue"]
 [ext_resource type="Texture2D" uid="uid://cb65djhjm8j7m" path="res://assets/Libraries/sprites/brown/brown-kompang.png" id="5_brown"]
 [ext_resource type="Texture2D" uid="uid://dwjmqn7p5kolf" path="res://assets/Libraries/sprites/yellow/yellow-kompang.png" id="6_yellow"]
+[ext_resource type="Texture2D" path="res://assets/Libraries/kompang/Chibi Pixel Art Kompang Drum.png" id="7_drum"]
+
+[sub_resource type="StyleBoxFlat" id="DemoGreen"]
+bg_color = Color(0.3, 0.85, 0.4, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="DemoOrange"]
+bg_color = Color(1, 0.7, 0.35, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="DemoRoll"]
+bg_color = Color(0.65, 0.3, 0.95, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="DemoBomb"]
+bg_color = Color(0.07, 0.07, 0.07, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.9, 0.12, 0.12, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="Animation" id="Anim_normal"]
+resource_name = "normal"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Green:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(70, 25), Vector2(325, 25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Green:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Orange:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(580, 25), Vector2(580, 25), Vector2(325, 25)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Orange:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("KeyD:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("KeyK:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Anim_long"]
+resource_name = "long"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Roll:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(580, 25), Vector2(325, 25), Vector2(325, 25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Roll:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(350, 50), Vector2(350, 50), Vector2(50, 50)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Roll:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("KeyK:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Anim_bomb"]
+resource_name = "bomb"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bomb:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(580, 25), Vector2(325, 25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bomb:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Anim_all"]
+resource_name = "all"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Drum:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Green:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Roll:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Bomb:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimLib_demo"]
+_data = {
+&"all": SubResource("Anim_all"),
+&"bomb": SubResource("Anim_bomb"),
+&"long": SubResource("Anim_long"),
+&"normal": SubResource("Anim_normal")
+}
 
 [node name="Game" type="Control" unique_id=662683365]
 layout_mode = 3
@@ -120,3 +386,189 @@ mouse_filter = 2
 texture = ExtResource("6_yellow")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Tutorial" type="CanvasLayer" parent="."]
+layer = 10
+visible = false
+
+[node name="Dim" type="ColorRect" parent="Tutorial"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0, 0.1, 0.82)
+
+[node name="Panel" type="PanelContainer" parent="Tutorial"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -270.0
+offset_right = 380.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Tutorial/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="Box" type="VBoxContainer" parent="Tutorial/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Tutorial/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+
+[node name="Demo" type="Control" parent="Tutorial/Panel/Margin/Box"]
+clip_contents = true
+custom_minimum_size = Vector2(700, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Bg" type="ColorRect" parent="Tutorial/Panel/Margin/Box/Demo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08, 0.03, 0.2, 0.7)
+
+[node name="Drum" type="TextureRect" parent="Tutorial/Panel/Margin/Box/Demo"]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 400.0
+offset_bottom = 100.0
+mouse_filter = 2
+texture = ExtResource("7_drum")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Green" type="Panel" parent="Tutorial/Panel/Margin/Box/Demo"]
+visible = false
+layout_mode = 0
+offset_left = 90.0
+offset_top = 25.0
+offset_right = 140.0
+offset_bottom = 75.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("DemoGreen")
+
+[node name="Orange" type="Panel" parent="Tutorial/Panel/Margin/Box/Demo"]
+visible = false
+layout_mode = 0
+offset_left = 580.0
+offset_top = 25.0
+offset_right = 630.0
+offset_bottom = 75.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("DemoOrange")
+
+[node name="Roll" type="Panel" parent="Tutorial/Panel/Margin/Box/Demo"]
+visible = false
+clip_contents = true
+layout_mode = 0
+offset_left = 250.0
+offset_top = 25.0
+offset_right = 450.0
+offset_bottom = 75.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("DemoRoll")
+
+[node name="Label" type="Label" parent="Tutorial/Panel/Margin/Box/Demo/Roll"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "MASH!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bomb" type="Panel" parent="Tutorial/Panel/Margin/Box/Demo"]
+visible = false
+layout_mode = 0
+offset_left = 520.0
+offset_top = 25.0
+offset_right = 570.0
+offset_bottom = 75.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("DemoBomb")
+
+[node name="Label" type="Label" parent="Tutorial/Panel/Margin/Box/Demo/Bomb"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = "!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeyD" type="Label" parent="Tutorial/Panel/Margin/Box/Demo"]
+visible = false
+layout_mode = 0
+offset_top = 30.0
+offset_right = 60.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.3, 0.85, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeyK" type="Label" parent="Tutorial/Panel/Margin/Box/Demo"]
+visible = false
+layout_mode = 0
+offset_left = 640.0
+offset_top = 30.0
+offset_right = 700.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(1, 0.7, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
+text = "K"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Anim" type="AnimationPlayer" parent="Tutorial/Panel/Margin/Box/Demo"]
+libraries = {
+&"": SubResource("AnimLib_demo")
+}
+
+[node name="Body" type="Label" parent="Tutorial/Panel/Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="StartButton" type="Button" parent="Tutorial/Panel/Margin/Box"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "START"
+
+[connection signal="pressed" from="Tutorial/Panel/Margin/Box/StartButton" to="." method="_close_tutorial"]
