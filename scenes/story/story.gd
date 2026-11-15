@@ -1,69 +1,33 @@
 extends Control
 
 const Story := preload("res://scripts/story.gd")
+const Levels := preload("res://scripts/levels.gd")
 const CHARS_PER_SEC := 45.0
 
 var data: Dictionary
 var outro := false
 var page := 0
 var shown := 0.0
-var t := 0.0
-var place_l: Label
-var text_l: Label
-var hint_l: Label
-var next_b: Button
+
+@onready var background: TextureRect = $Background
+@onready var dim: ColorRect = $Dim
+@onready var place_l: Label = $Root/Top/PlaceLabel
+@onready var text_l: Label = $Root/TextLabel
+@onready var hint_l: Label = $Root/HintLabel
+@onready var next_b: Button = $Root/NextButton
 
 
 func _ready() -> void:
 	outro = Save.story_ending != ""
 	data = Story.ENDINGS[Save.story_ending] if outro else Story.INTRO[Save.current_level]
 
-	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 20)
-	add_child(root)
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.offset_left = 60
-	root.offset_right = -60
-	root.offset_top = 30
-	root.offset_bottom = -30
+	var lv := 4 if outro else Save.current_level
+	var base: Color = Levels.LEVELS[lv - 1].color
+	dim.color = Color(base.darkened(0.7), 0.7)
 
-	var top := HBoxContainer.new()
-	root.add_child(top)
-	var skip := Button.new()
-	skip.text = "SKIP"
-	skip.add_theme_font_size_override("font_size", 18)
-	skip.pressed.connect(_finish)
-	top.add_child(skip)
-	place_l = Label.new()
-	place_l.text = (("THE END  -  " if Save.story_ending == "good" else "GAME OVER  -  ") if outro else "LEVEL %d  -  " % Save.current_level) + String(data.place).to_upper()
-	place_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	place_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	place_l.add_theme_font_size_override("font_size", 26)
-	place_l.add_theme_color_override("font_color", Color(1, 0.85, 0.25))
-	top.add_child(place_l)
-	var spacer := Control.new()
-	spacer.custom_minimum_size = Vector2(skip.get_minimum_size().x, 0)
-	top.add_child(spacer)
-
-	text_l = Label.new()
-	text_l.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	text_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	text_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	text_l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	text_l.add_theme_font_size_override("font_size", 32)
-	root.add_child(text_l)
-
-	hint_l = Label.new()
-	hint_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint_l.modulate = Color(1, 1, 1, 0.6)
-	root.add_child(hint_l)
-
-	next_b = Button.new()
-	next_b.add_theme_font_size_override("font_size", 22)
-	next_b.custom_minimum_size = Vector2(220, 52)
-	next_b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	$Root/Top/SkipButton.pressed.connect(_finish)
 	next_b.pressed.connect(_advance)
-	root.add_child(next_b)
+	place_l.text = (("THE END  -  " if Save.story_ending == "good" else "GAME OVER  -  ") if outro else "LEVEL %d  -  " % Save.current_level) + String(data.place).to_upper()
 	next_b.grab_focus()
 	_show_page()
 
@@ -103,17 +67,8 @@ func _finish() -> void:
 
 
 func _process(delta: float) -> void:
-	t += delta
 	shown += delta * CHARS_PER_SEC
 	text_l.visible_characters = mini(int(shown), text_l.get_total_character_count())
-	queue_redraw()
-
-
-func _draw() -> void:
-	var lv := 4 if outro else Save.current_level
-	var base: Color = load("res://scripts/levels.gd").LEVELS[lv - 1].color
-	for i in 40:
-		draw_rect(Rect2(0, size.y * i / 40.0, size.x, size.y / 40.0 + 1), base.darkened(0.7).lerp(base.darkened(0.35), float(i) / 39.0))
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -1,10 +1,5 @@
 extends Control
 
-const COL_LEFT := Color(0.3, 0.85, 0.4)
-const COL_RIGHT := Color(1.0, 0.7, 0.35)
-const COL_ROLL := Color(0.65, 0.3, 0.95)
-const COL_BOMB := Color(0.9, 0.12, 0.12)
-
 const PAGES := [
 	["The Rhythm Circle", "circle", "Notes slide in from the drummers toward the big circle. The closer a note is to the centre when you press, the better the hit. You have extra room when you are late, and pressing early never costs you."],
 	["Normal Notes", "normal", "Green notes come from the left (press D). Orange notes come from the right (press K). Tap once as they reach the circle. PERFECT gives big points, GOOD gives less. A missed note costs cash."],
@@ -17,78 +12,37 @@ const PAGES := [
 
 var page := 0
 var t := 0.0
-var title_l: Label
-var body_l: Label
-var page_l: Label
-var prev_b: Button
-var next_b: Button
-var art: Control
+
+@onready var art: Control = $Root/Art
+@onready var title_l: Label = $Root/PageTitle
+@onready var body_l: Label = $Root/Body
+@onready var page_l: Label = $Root/Bar/PageLabel
+@onready var prev_b: Button = $Root/Nav/PrevButton
+@onready var next_b: Button = $Root/Nav/NextButton
+@onready var target: Control = $Root/Art/Target
+@onready var glow: Control = $Root/Art/Glow
+@onready var ring: Control = $Root/Art/Ring
+@onready var green0: Control = $Root/Art/Green0
+@onready var orange0: Control = $Root/Art/Orange0
+@onready var green1: Control = $Root/Art/Green1
+@onready var roll: Control = $Root/Art/Roll
+@onready var roll_label: Control = $Root/Art/RollLabel
+@onready var bomb_l: Control = $Root/Art/BombL
+@onready var bomb_r: Control = $Root/Art/BombR
+@onready var key_d: Control = $Root/Art/KeyD
+@onready var key_k: Control = $Root/Art/KeyK
+@onready var msg: Label = $Root/Art/Msg
+@onready var msg2: Label = $Root/Art/Msg2
+@onready var fever_bg: Control = $Root/Art/FeverBarBg
+@onready var fever_bar: Control = $Root/Art/FeverBarBg/FeverBar
+@onready var props: Array[Control] = [glow, ring, green0, orange0, green1, roll, roll_label, bomb_l, bomb_r, key_d, key_k, msg, msg2, fever_bg]
 
 
 func _ready() -> void:
-	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 12)
-	add_child(root)
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.offset_left = 40
-	root.offset_right = -40
-	root.offset_top = 16
-	root.offset_bottom = -16
-
-	var bar := HBoxContainer.new()
-	root.add_child(bar)
-	var back := Button.new()
-	back.text = "< BACK"
-	back.add_theme_font_size_override("font_size", 18)
-	back.pressed.connect(_back)
-	bar.add_child(back)
-	var h := Label.new()
-	h.text = "HOW TO PLAY"
-	h.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	h.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	h.add_theme_font_size_override("font_size", 38)
-	h.add_theme_color_override("font_color", Color(1, 0.85, 0.25))
-	bar.add_child(h)
-	page_l = Label.new()
-	page_l.add_theme_font_size_override("font_size", 22)
-	bar.add_child(page_l)
-
-	art = Control.new()
-	art.custom_minimum_size = Vector2(0, 220)
-	art.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	art.draw.connect(_draw_art)
-	root.add_child(art)
-
-	title_l = Label.new()
-	title_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_l.add_theme_font_size_override("font_size", 30)
-	title_l.add_theme_color_override("font_color", Color(1, 0.85, 0.25))
-	root.add_child(title_l)
-	body_l = Label.new()
-	body_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	body_l.custom_minimum_size = Vector2(0, 90)
-	body_l.add_theme_font_size_override("font_size", 19)
-	root.add_child(body_l)
-
-	var row := HBoxContainer.new()
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 16)
-	root.add_child(row)
-	prev_b = _btn("< PREV", row)
-	prev_b.pressed.connect(func() -> void: _go(-1))
-	next_b = _btn("NEXT >", row)
-	next_b.pressed.connect(func() -> void: _go(1))
+	$Root/Bar/BackButton.pressed.connect(_back)
+	prev_b.pressed.connect(_go.bind(-1))
+	next_b.pressed.connect(_go.bind(1))
 	_show()
-
-
-func _btn(text: String, parent: Control) -> Button:
-	var b := Button.new()
-	b.text = text
-	b.custom_minimum_size = Vector2(150, 48)
-	b.add_theme_font_size_override("font_size", 20)
-	parent.add_child(b)
-	return b
 
 
 func _go(d: int) -> void:
@@ -112,79 +66,78 @@ func _back() -> void:
 
 func _process(delta: float) -> void:
 	t += delta
-	queue_redraw()
-	art.queue_redraw()
+	_animate_art()
 
 
-func _draw() -> void:
-	for i in 40:
-		draw_rect(Rect2(0, size.y * i / 40.0, size.x, size.y / 40.0 + 1), Color(0.16, 0.06, 0.36).lerp(Color(0.48, 0.12, 0.56), float(i) / 39.0))
+func _put(node: Control, center: Vector2) -> void:
+	node.position = center - node.size * 0.5
 
 
-func _draw_art() -> void:
-	var w := art.size.x
-	var h := art.size.y
-	var c := Vector2(w * 0.5, h * 0.5)
-	var r := minf(h * 0.3, 60.0)
-	var nr := r * 0.42
-	art.draw_rect(Rect2(0, 0, w, h), Color(0.08, 0.03, 0.2, 0.7))
-	var kind: String = PAGES[page][1]
+func _say(label: Label, text: String, center_y: float, col: Color, fs := 26) -> void:
+	label.visible = true
+	label.text = text
+	label.add_theme_color_override("font_color", col)
+	label.add_theme_font_size_override("font_size", fs)
+	label.size = Vector2(art.size.x, fs * 1.5)
+	label.position = Vector2(0.0, center_y - label.size.y * 0.5)
+
+
+func _animate_art() -> void:
+	var c := art.size * 0.5
 	var ph := fposmod(t * 0.5, 1.0)
-	var reach := minf(w * 0.4, 360.0)
-	art.draw_circle(c, r, Color(0.08, 0.04, 0.2, 0.7))
-	art.draw_arc(c, r, 0.0, TAU, 48, Color.WHITE, 4.0, true)
+	var reach := minf(art.size.x * 0.4, 360.0)
 	var d := reach * (1.0 - ph)
-	match kind:
+	for n in props:
+		n.visible = false
+	_put(target, c)
+	match PAGES[page][1]:
 		"circle":
-			art.draw_arc(c, r * (1.0 + (1.0 - ph) * 0.9), 0.0, TAU, 48, Color(1, 0.9, 0.35, 0.8), 3.0, true)
-			_note(c + Vector2(-d, 0), nr, COL_LEFT)
-			_note(c + Vector2(d, 0), nr, COL_RIGHT)
+			ring.visible = true
+			_put(ring, c)
+			ring.scale = Vector2.ONE * (1.0 + (1.0 - ph) * 0.9)
+			green0.visible = true
+			orange0.visible = true
+			_put(green0, c + Vector2(-d, 0))
+			_put(orange0, c + Vector2(d, 0))
 		"normal":
+			var notes: Array[Control] = [green0, orange0, green1]
 			for k in 3:
 				var dd := reach * fposmod(1.0 - ph + float(k) / 3.0, 1.0)
-				_note(c + Vector2(-dd if k % 2 == 0 else dd, 0), nr, COL_LEFT if k % 2 == 0 else COL_RIGHT)
-			_label("D", c + Vector2(-reach - 40, 8), COL_LEFT)
-			_label("K", c + Vector2(reach + 40, 8), COL_RIGHT)
+				notes[k].visible = true
+				_put(notes[k], c + Vector2(-dd if k % 2 == 0 else dd, 0))
+			key_d.visible = true
+			key_k.visible = true
+			_put(key_d, c + Vector2(-reach - 40, 0))
+			_put(key_k, c + Vector2(reach + 40, 0))
 		"long":
 			var tail := reach * 1.6 * (1.0 - ph)
 			var head := maxf(0.0, d)
-			var sb := StyleBoxFlat.new()
-			sb.bg_color = COL_ROLL
-			sb.set_corner_radius_all(int(nr))
-			sb.set_border_width_all(3)
-			sb.border_color = Color.WHITE
-			var x0 := c.x + head - nr
-			art.draw_style_box(sb, Rect2(x0, c.y - nr, maxf(tail - head, 0.0) + nr * 2.0, nr * 2.0))
-			_label("MASH!", c + Vector2(head + (tail - head) * 0.5 + 10, 8), Color.WHITE)
+			roll.visible = true
+			roll.size = Vector2(maxf(tail - head, 0.0) + 50.0, 50.0)
+			roll.position = Vector2(c.x + head - 25.0, c.y - 25.0)
+			roll_label.visible = true
+			_put(roll_label, Vector2(c.x + head + (tail - head) * 0.5, c.y))
 		"bomb":
 			var pl := 0.5 + 0.5 * sin(t * 12.0)
-			for s in [-1, 1]:
-				var p: Vector2 = c + Vector2(s * d, 0)
-				art.draw_circle(p, nr * (1.35 + pl * 0.2), Color(1, 0.15, 0.15, 0.3 + pl * 0.3))
-				art.draw_circle(p, nr * 0.9, Color(0.07, 0.07, 0.07))
-				art.draw_arc(p, nr * 0.9, 0.0, TAU, 24, COL_BOMB, 3.0, true)
-				_label("!", p + Vector2(0, 8), COL_BOMB)
-			_label("DO NOT PRESS!", c + Vector2(0, r * 1.8), Color(1, 0.4, 0.4))
+			for bomb: Control in [bomb_l, bomb_r]:
+				bomb.visible = true
+				bomb.scale = Vector2.ONE * (1.0 + pl * 0.12)
+			_put(bomb_l, c + Vector2(-d, 0))
+			_put(bomb_r, c + Vector2(d, 0))
+			_say(msg, "DO NOT PRESS!", c.y + 100.0, Color(1, 0.4, 0.4))
 		"fever":
-			art.draw_circle(c, r * 1.8, Color(1, 0.85, 0.3, 0.2 + 0.1 * sin(t * 6.0)))
-			art.draw_rect(Rect2(c.x - 140, 20, 280, 16), Color(0, 0, 0, 0.5))
-			art.draw_rect(Rect2(c.x - 140, 20, 280 * ph, 16), Color(1, 0.6, 0.15))
-			_label("FEVER x2", c + Vector2(0, 8), Color(1, 0.95, 0.4))
+			glow.visible = true
+			_put(glow, c)
+			glow.modulate.a = 0.8 + 0.4 * sin(t * 6.0)
+			fever_bg.visible = true
+			fever_bg.position = Vector2(c.x - 140.0, 20.0)
+			fever_bar.size.x = 280.0 * ph
+			_say(msg, "FEVER x2", c.y, Color(1, 0.95, 0.4))
 		"stars":
-			_label("* * *", c + Vector2(0, -10), Color(1, 0.85, 0.25), 56)
-			_label("CASH 500 -> 420 left", c + Vector2(0, 50), Color.WHITE)
+			_say(msg, "* * *", c.y - 30.0, Color(1, 0.85, 0.25), 56)
+			_say(msg2, "CASH 500 -> 420 left", c.y + 40.0, Color.WHITE)
 		"shop":
-			_label("CIRCLE      FEVER      SHIELD", c + Vector2(0, 8), Color(1, 0.9, 0.4), 34)
-
-
-func _note(p: Vector2, r: float, col: Color) -> void:
-	art.draw_circle(p, r, col)
-	art.draw_arc(p, r, 0.0, TAU, 24, Color.WHITE, r * 0.16, true)
-
-
-func _label(s: String, p: Vector2, col: Color, fs := 26) -> void:
-	art.draw_string(ThemeDB.fallback_font, p - Vector2(art.size.x * 0.5, 0), s, HORIZONTAL_ALIGNMENT_CENTER, art.size.x, fs, col)
-	pass
+			_say(msg, "CIRCLE      FEVER      SHIELD", c.y, Color(1, 0.9, 0.4), 34)
 
 
 func _unhandled_input(event: InputEvent) -> void:

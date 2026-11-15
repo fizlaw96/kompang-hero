@@ -24,8 +24,6 @@ const COL_LEFT := Color(0.3, 0.85, 0.4)
 const COL_RIGHT := Color(1.0, 0.7, 0.35)
 const COL_ROLL := Color(0.65, 0.3, 0.95)
 const COL_BOMB := Color(0.9, 0.12, 0.12)
-const SHIRT := [Color("e63946"), Color("2a9d8f"), Color("f4a261"), Color("7b2cbf")]
-const SKIN := [Color("e8b48a"), Color("c98f64"), Color("f0c8a0"), Color("a8714a")]
 
 var level := 1
 var ref_score := 1
@@ -77,9 +75,26 @@ var perfect_dist := 18.0
 var bomb_dist := 60.0
 var pause_panel: Control
 
+const STAGES := [
+	preload("res://assets/Libraries/enviroment/without npc/tutorial-stage.png"),
+	preload("res://assets/Libraries/enviroment/without npc/wedding-kampung-stage.png"),
+	preload("res://assets/Libraries/enviroment/without npc/wedding-hall-stage.png"),
+	preload("res://assets/Libraries/enviroment/without npc/port-klang-stage(secret level).png"),
+]
+
+
+@onready var background: TextureRect = $Background
+@onready var drummers: Array[TextureRect] = [$Drummer0, $Drummer1, $Drummer2, $Drummer3]
+@onready var idle_tex: Array[Texture2D] = [drummers[0].texture, drummers[1].texture, drummers[2].texture, drummers[3].texture]
+@onready var miss_tex: Array[Texture2D] = [
+	preload("res://scenes/game/miss_red.tres"), preload("res://scenes/game/miss_blue.tres"),
+	preload("res://scenes/game/miss_brown.tres"), preload("res://scenes/game/miss_yellow.tres"),
+]
+
 
 func _ready() -> void:
 	level = Save.current_level
+	background.texture = STAGES[level - 1]
 	var chart := Levels.build_chart(level)
 	cfg = chart.cfg
 	ref_score = Levels.reference_score(chart.notes)
@@ -216,7 +231,24 @@ func _process(delta: float) -> void:
 			if over_timer <= 0.0:
 				_goto_result()
 		_tick_effects(delta)
+	_update_drummers()
 	queue_redraw()
+
+
+func _update_drummers() -> void:
+	var beat_phase := fposmod(song_time / spb, 1.0)
+	for i in 4:
+		var d := drummers[i]
+		var hit := exp(-(clock - float(hit_at[i])) * 8.0)
+		var scare := float(scared[i]) > clock - 0.35
+		d.texture = miss_tex[i] if scare else idle_tex[i]
+		d.pivot_offset = Vector2(d.size.x * 0.5, d.size.y)
+		d.scale = Vector2.ONE * (1.0 + hit * 0.08)
+		var bob := sin(beat_phase * TAU) * 4.0 - hit * 8.0
+		d.position.y = size.y * 0.56 - d.size.y + bob
+		d.position.x = _drummer_x(i) - d.size.x * 0.5 + (sin(clock * 90.0) * 5.0 if scare else 0.0)
+	var by := sin(clock * 6.0) * 4.0
+	$Drummer1/YouLabel.position.y = -34.0 + by
 
 
 func _mult() -> float:
@@ -480,12 +512,6 @@ func _draw() -> void:
 	var beat_phase := fposmod(song_time / spb, 1.0)
 	var pulse := pow(1.0 - beat_phase, 3.0)
 
-	var top: Color = Levels.LEVELS[level - 1].color.darkened(0.55)
-	var bottom: Color = Levels.LEVELS[level - 1].color.darkened(0.8)
-	if fever:
-		top = top.lightened(0.25)
-	for i in 32:
-		draw_rect(Rect2(0, H * i / 32.0, W, H / 32.0 + 1), top.lerp(bottom, float(i) / 31.0))
 	if fever:
 		for k in 14:
 			var a := float(k) / 14.0 * TAU + clock * 0.4
@@ -495,16 +521,6 @@ func _draw() -> void:
 	draw_rect(Rect2(0, H * 0.58, W, H * 0.42), Color(1, 1, 1, 0.05))
 	draw_rect(Rect2(0, cy - R * 0.6, W, R * 1.2), Color(0, 0, 0, 0.35))
 	draw_line(Vector2(0, cy), Vector2(W, cy), Color(1, 1, 1, 0.25), 2.0)
-
-	var u := minf(H * 0.05, W * 0.028)
-	for i in 4:
-		var a := exp(-(clock - float(hit_at[i])) * 8.0)
-		var s := float(scared[i]) > clock - 0.35
-		_draw_drummer(i, Vector2(_drummer_x(i), H * 0.56), u, a, i == PLAYER, beat_phase, s)
-	var px := _drummer_x(PLAYER)
-	var by := sin(clock * 6.0) * u * 0.2
-	draw_colored_polygon(PackedVector2Array([Vector2(px, H * 0.56 - u * 7.0 + by), Vector2(px - u * 0.55, H * 0.56 - u * 7.9 + by), Vector2(px + u * 0.55, H * 0.56 - u * 7.9 + by)]), Color(1, 0.9, 0.4))
-	_text("YOU", Vector2(px, H * 0.56 - u * 8.2 + by), maxi(12, int(u * 0.8)), Color(1, 0.9, 0.4))
 
 	_draw_circle_target(Vector2(cx, cy), pulse)
 	_draw_notes(cx, cy)
@@ -618,41 +634,6 @@ func _draw_long(x1: float, x2: float, y: float, r: float, a: float, n: Dictionar
 		draw_arc(hp, r * 0.85, 0.0, TAU, 24, Color(COL_ROLL.darkened(0.2), a), r * 0.18, true)
 	var label := "%d / %d" % [n.taps, n.need] if n.started else "MASH!"
 	_text(label, Vector2((x1 + x2) * 0.5, y + r * 0.3), int(r * 0.9), Color(1, 1, 1, a), HORIZONTAL_ALIGNMENT_CENTER, false)
-
-
-func _draw_drummer(i: int, base: Vector2, u: float, hit: float, is_player: bool, beat_phase: float, scare: bool) -> void:
-	var shake := sin(clock * 90.0) * u * 0.08 if scare else 0.0
-	var bob := sin(beat_phase * TAU) * u * 0.06 - hit * u * 0.12
-	var p := base + Vector2(shake, bob)
-	if is_player:
-		draw_circle(Vector2(base.x, base.y), u * 2.3, Color(1, 0.9, 0.35, 0.18))
-	draw_rect(Rect2(p.x - u * 0.75, p.y - u * 1.3, u * 0.6, u * 1.3), Color(0.17, 0.17, 0.29))
-	draw_rect(Rect2(p.x + u * 0.15, p.y - u * 1.3, u * 0.6, u * 1.3), Color(0.17, 0.17, 0.29))
-	draw_rect(Rect2(p.x - u * 0.95, p.y - u * 2.0, u * 1.9, u * 0.8), Color(0.79, 0.59, 0.18))
-	draw_rect(Rect2(p.x - u * 0.95, p.y - u * 3.6, u * 1.9, u * 1.9), SHIRT[i])
-	var head := p + Vector2(0, -u * 4.35)
-	draw_circle(head, u * 0.82, SKIN[i])
-	if i % 2 == 1:
-		draw_arc(head, u * 0.9, PI, TAU, 24, Color(0.97, 0.95, 1), u * 0.4, true)
-	else:
-		draw_rect(Rect2(head.x - u * 0.8, head.y - u * 0.95, u * 1.6, u * 0.6), Color(0.09, 0.09, 0.12))
-		draw_rect(Rect2(head.x - u * 0.8, head.y - u * 0.5, u * 1.6, u * 0.1), Color(1, 0.84, 0.3))
-	draw_circle(head + Vector2(-u * 0.3, 0), u * 0.09, Color(0.1, 0.1, 0.1))
-	draw_circle(head + Vector2(u * 0.3, 0), u * 0.09, Color(0.1, 0.1, 0.1))
-	if scare:
-		draw_circle(head + Vector2(0, u * 0.4), u * 0.14, Color(0.4, 0.1, 0.1))
-	else:
-		draw_arc(head + Vector2(0, u * 0.25), u * 0.26, 0.15 * PI, 0.85 * PI, 10, Color(0.48, 0.16, 0.16), u * 0.07)
-	var k := p + Vector2(0, -u * 2.75 + hit * u * 0.2)
-	var kr := u * 1.3 * (1.0 + hit * 0.1)
-	draw_circle(k, kr, Color(0.42, 0.23, 0.09))
-	draw_circle(k, kr * 0.86, Color(1, 0.97, 0.88) if hit > 0.3 else Color(0.95, 0.89, 0.74))
-	draw_arc(k, kr * 0.62, 0.0, TAU, 32, Color(0.79, 0.59, 0.18), kr * 0.07, true)
-	for d in 8:
-		var a := float(d) / 8.0 * TAU
-		draw_circle(k + Vector2(cos(a), sin(a)) * kr * 0.93, kr * 0.06, Color(1, 0.84, 0.3))
-	draw_circle(k + Vector2(-u * 1.05, u * 0.35), u * 0.32, SKIN[i])
-	draw_circle(k + Vector2(u * 1.05, u * 0.35), u * 0.32, SKIN[i])
 
 
 func _draw_hud(cx: float, cy: float) -> void:

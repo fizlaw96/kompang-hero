@@ -1,6 +1,8 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scenes/result/result.gd" id="1_result"]
+[ext_resource type="Texture2D" path="res://assets/Libraries/enviroment/without npc/tutorial-stage.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/blue/blue-kompang.png" id="3_blue"]
 
 [node name="Result" type="Control"]
 layout_mode = 3
@@ -10,3 +12,267 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_result")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.16, 0.06, 0.36, 0.7)
+
+[node name="Drummer" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -340.0
+offset_right = 260.0
+offset_bottom = -10.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("3_blue")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Card" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -300.0
+offset_right = 270.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="V" type="VBoxContainer" parent="Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Card/Margin/V"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 38
+text = "LEVEL COMPLETE!"
+horizontal_alignment = 1
+
+[node name="Stars" type="HBoxContainer" parent="Card/Margin/V"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Star0" type="Label" parent="Card/Margin/V/Stars"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.3, 0.35, 1)
+theme_override_font_sizes/font_size = 96
+text = "*"
+
+[node name="Star1" type="Label" parent="Card/Margin/V/Stars"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.3, 0.35, 1)
+theme_override_font_sizes/font_size = 96
+text = "*"
+
+[node name="Star2" type="Label" parent="Card/Margin/V/Stars"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.3, 0.35, 1)
+theme_override_font_sizes/font_size = 96
+text = "*"
+
+[node name="Grid" type="GridContainer" parent="Card/Margin/V"]
+layout_mode = 2
+theme_override_constants/h_separation = 30
+columns = 2
+
+[node name="ScoreLabel" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Score"
+
+[node name="ScoreValue" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="MistakesLabel" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Mistakes"
+
+[node name="MistakesValue" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="ComboLabel" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Max combo"
+
+[node name="ComboValue" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="CashLabel" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Remaining cash"
+
+[node name="CashValue" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="EarnLabel" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Added to wallet"
+
+[node name="EarnValue" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="RunStarsLabel" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Stars this run"
+
+[node name="RunStarsValue" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="TotalStarsLabel" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Total stars"
+
+[node name="TotalStarsValue" type="Label" parent="Card/Margin/V/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="Note" type="Label" parent="Card/Margin/V"]
+modulate = Color(1, 1, 1, 0.8)
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Card/Margin/V"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="RetryButton" type="Button" parent="Card/Margin/V/Buttons"]
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "RETRY"
+
+[node name="LevelsButton" type="Button" parent="Card/Margin/V/Buttons"]
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "LEVELS"
+
+[node name="EndingButton" type="Button" parent="Card/Margin/V/Buttons"]
+visible = false
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "ENDING"
+
+[node name="ContinueButton" type="Button" parent="Card/Margin/V/Buttons"]
+visible = false
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "CONTINUE"
+
+[node name="SecretPanel" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0, 0.18, 0.93)
+
+[node name="Box" type="VBoxContainer" parent="SecretPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -120.0
+offset_right = 260.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Heading" type="Label" parent="SecretPanel/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.5, 0.95, 1)
+theme_override_colors/font_outline_color = Color(0.3, 0, 0.4, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 44
+text = "SECRET LEVEL UNLOCKED!"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="SecretPanel/Box"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "All 9 stars collected!
+Level 4 - EXPERT awaits the true masters."
+horizontal_alignment = 1
+
+[node name="OkButton" type="Button" parent="SecretPanel/Box"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "TO LEVEL SELECT"

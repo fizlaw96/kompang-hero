@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scenes/settings/settings.gd" id="1_settings"]
+[ext_resource type="Texture2D" path="res://assets/Libraries/enviroment/without npc/wedding-kampung-stage.png" id="2_bg"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -10,3 +11,165 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_settings")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.1, 0.02, 0.2, 0.65)
+
+[node name="Root" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -260.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 520.0
+grow_horizontal = 2
+theme_override_constants/separation = 14
+
+[node name="Bar" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="Root/Bar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "< BACK"
+
+[node name="Title" type="Label" parent="Root/Bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0.04, 0.3, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 38
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="master" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/master"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Master volume"
+
+[node name="Slider" type="HSlider" parent="Root/master"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Value" type="Label" parent="Root/master"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "0"
+
+[node name="music" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/music"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Music volume"
+
+[node name="Slider" type="HSlider" parent="Root/music"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Value" type="Label" parent="Root/music"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "0"
+
+[node name="sfx" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/sfx"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Drum effects volume"
+
+[node name="Slider" type="HSlider" parent="Root/sfx"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Value" type="Label" parent="Root/sfx"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "0"
+
+[node name="music_on" type="CheckBox" parent="Root"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Background music"
+
+[node name="sfx_on" type="CheckBox" parent="Root"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Sound effects"
+
+[node name="assist" type="CheckBox" parent="Root"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Assist mode (wider timing windows)"
+
+[node name="reduce_flash" type="CheckBox" parent="Root"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Reduce screen flashing"
+
+[node name="hints" type="CheckBox" parent="Root"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Show tutorial hints"
+
+[node name="ResetButton" type="Button" parent="Root"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "RESET ALL PROGRESS"
