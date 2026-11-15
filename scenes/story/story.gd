@@ -63,7 +63,7 @@ func _finish() -> void:
 		Save.story_ending = ""
 		get_tree().change_scene_to_file("res://scenes/levels/levels.tscn")
 	else:
-		get_tree().change_scene_to_file("res://scenes/game/game.tscn")
+		get_tree().change_scene_to_file(Levels.game_scene(Save.current_level))
 
 
 func _process(delta: float) -> void:

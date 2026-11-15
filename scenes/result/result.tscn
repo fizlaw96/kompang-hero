@@ -78,7 +78,7 @@ theme_override_constants/separation = 12
 [node name="Title" type="Label" parent="Card/Margin/V"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 40
 text = "LEVEL COMPLETE!"
 horizontal_alignment = 1
 
@@ -113,85 +113,85 @@ columns = 2
 [node name="ScoreLabel" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Score"
 
 [node name="ScoreValue" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
 [node name="MistakesLabel" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Mistakes"
 
 [node name="MistakesValue" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
 [node name="ComboLabel" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Max combo"
 
 [node name="ComboValue" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
 [node name="CashLabel" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Remaining cash"
 
 [node name="CashValue" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
 [node name="EarnLabel" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Added to wallet"
 
 [node name="EarnValue" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
 [node name="RunStarsLabel" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Stars this run"
 
 [node name="RunStarsValue" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
 [node name="TotalStarsLabel" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Total stars"
 
 [node name="TotalStarsValue" type="Label" parent="Card/Margin/V/Grid"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
 [node name="Note" type="Label" parent="Card/Margin/V"]
@@ -207,27 +207,27 @@ alignment = 1
 [node name="RetryButton" type="Button" parent="Card/Margin/V/Buttons"]
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "RETRY"
 
 [node name="LevelsButton" type="Button" parent="Card/Margin/V/Buttons"]
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "LEVELS"
 
 [node name="EndingButton" type="Button" parent="Card/Margin/V/Buttons"]
 visible = false
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "ENDING"
 
 [node name="ContinueButton" type="Button" parent="Card/Margin/V/Buttons"]
 visible = false
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "CONTINUE"
 
 [node name="SecretPanel" type="ColorRect" parent="."]
@@ -260,7 +260,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.5, 0.95, 1)
 theme_override_colors/font_outline_color = Color(0.3, 0, 0.4, 1)
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 48
 text = "SECRET LEVEL UNLOCKED!"
 horizontal_alignment = 1
 
@@ -274,5 +274,5 @@ horizontal_alignment = 1
 [node name="OkButton" type="Button" parent="SecretPanel/Box"]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "TO LEVEL SELECT"

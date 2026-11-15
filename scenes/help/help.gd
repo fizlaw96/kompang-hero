@@ -73,7 +73,7 @@ func _put(node: Control, center: Vector2) -> void:
 	node.position = center - node.size * 0.5
 
 
-func _say(label: Label, text: String, center_y: float, col: Color, fs := 26) -> void:
+func _say(label: Label, text: String, center_y: float, col: Color, fs := 24) -> void:
 	label.visible = true
 	label.text = text
 	label.add_theme_color_override("font_color", col)
@@ -137,7 +137,7 @@ func _animate_art() -> void:
 			_say(msg, "* * *", c.y - 30.0, Color(1, 0.85, 0.25), 56)
 			_say(msg2, "CASH 500 -> 420 left", c.y + 40.0, Color.WHITE)
 		"shop":
-			_say(msg, "CIRCLE      FEVER      SHIELD", c.y, Color(1, 0.9, 0.4), 34)
+			_say(msg, "CIRCLE      FEVER      SHIELD", c.y, Color(1, 0.9, 0.4), 32)
 
 
 func _unhandled_input(event: InputEvent) -> void:

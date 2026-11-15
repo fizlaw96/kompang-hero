@@ -4,6 +4,8 @@ extends Control
 # D hits left-lane notes, K hits right-lane notes (mouse/touch: left or right half of the screen).
 
 const Levels := preload("res://scripts/levels.gd")
+const OsuParser := preload("res://scripts/osu_parser.gd")
+const GAME_FONT := preload("res://assets/fonts/PixelOperator8-Bold.ttf")
 
 const PERFECT_RATIO := 0.3
 const GOOD_EARLY_RATIO := 1.5
@@ -25,7 +27,15 @@ const COL_RIGHT := Color(1.0, 0.7, 0.35)
 const COL_ROLL := Color(0.65, 0.3, 0.95)
 const COL_BOMB := Color(0.9, 0.12, 0.12)
 
-var level := 1
+## Set per level scene (scenes/game/level_1.tscn ... level_4.tscn).
+@export_group("Level")
+@export_range(1, 4, 1) var level := 1
+
+@export_group("Chart")
+## Optional osu!mania 2K chart. Leave empty to use the generated chart for [member level].
+## The .osu file's first uninherited timing point sets the scroll speed and music pitch.
+@export_file("*.osu") var chart_file := ""
+
 var ref_score := 1
 var cfg: Dictionary
 var spb := 0.5
@@ -55,6 +65,7 @@ var press_times: Array[float] = []
 var hit_at := [-9.0, -9.0, -9.0, -9.0]
 var scared := [-9.0, -9.0, -9.0, -9.0]
 var clock := 0.0
+var drummer_offsets: Array[Vector2] = []
 var floats: Array[Dictionary] = []
 var parts: Array[Dictionary] = []
 var flash := 0.0
@@ -93,9 +104,15 @@ const STAGES := [
 
 
 func _ready() -> void:
-	level = Save.current_level
-	background.texture = STAGES[level - 1]
-	var chart := Levels.build_chart(level)
+	Save.current_level = level
+	# Keep the drummer layout authored in the scene (a level scene can override it too).
+	drummer_offsets.clear()
+	for i in 4:
+		drummer_offsets.append(Vector2(drummers[i].offset_left, drummers[i].offset_top))
+	# Level scenes set their own Background texture; this fallback keeps the base scene usable.
+	if background.texture == null:
+		background.texture = STAGES[level - 1]
+	var chart := _load_chart()
 	cfg = chart.cfg
 	ref_score = Levels.reference_score(chart.notes)
 	spb = 60.0 / float(chart.bpm)
@@ -135,6 +152,39 @@ func _ready() -> void:
 	resized.connect(_layout)
 
 
+func _load_chart() -> Dictionary:
+	if chart_file.is_empty():
+		return Levels.build_chart(level)
+	var parsed := OsuParser.parse(chart_file)
+	if not bool(parsed.get("ok", false)):
+		push_warning("Chart '%s' rejected: %s. Using the generated chart for level %d." % [chart_file, parsed.get("error", "unknown error"), level])
+		return Levels.build_chart(level)
+	return _chart_from_osu(parsed)
+
+
+func _chart_from_osu(parsed: Dictionary) -> Dictionary:
+	var m: Dictionary = Levels.LEVEL_CFG[level]
+	var bpm := float(parsed.get("bpm", m.bpm))
+	var out_notes: Array[Dictionary] = []
+	var last := 0.0
+	for src: Dictionary in parsed.notes:
+		var is_long := float(src.end) > 0.0
+		var end := float(src.end) if is_long else -1.0
+		out_notes.append({
+			"time": float(src.time),
+			"side": -1 if int(src.column) == 0 else 1,
+			"type": "long" if is_long else "normal",
+			"end": end,
+		})
+		last = maxf(last, end if is_long else float(src.time))
+	return {
+		"bpm": bpm,
+		"notes": out_notes,
+		"end_time": last + (60.0 / bpm) * 4.0,
+		"cfg": m,
+	}
+
+
 func _layout() -> void:
 	var lv_up := int(Save.upgrades.circle)
 	var grow := 1.0 + 0.15 * float(lv_up)
@@ -168,13 +218,13 @@ func _build_pause() -> void:
 	var title := Label.new()
 	title.text = "PAUSED"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 42)
+	title.add_theme_font_size_override("font_size", 40)
 	box.add_child(title)
 	for item: Array in [["RESUME", _toggle_pause], ["RESTART", _restart], ["QUIT TO LEVELS", _quit]]:
 		var b := Button.new()
 		b.text = item[0]
-		b.custom_minimum_size = Vector2(0, 50)
-		b.add_theme_font_size_override("font_size", 22)
+		b.custom_minimum_size = Vector2(0, 52)
+		b.add_theme_font_size_override("font_size", 24)
 		b.pressed.connect(item[1])
 		box.add_child(b)
 
@@ -190,7 +240,7 @@ func _toggle_pause() -> void:
 
 func _restart() -> void:
 	Sfx.stop_music()
-	get_tree().change_scene_to_file("res://scenes/game/game.tscn")
+	get_tree().reload_current_scene()
 
 
 func _quit() -> void:
@@ -245,8 +295,12 @@ func _update_drummers() -> void:
 		d.pivot_offset = Vector2(d.size.x * 0.5, d.size.y)
 		d.scale = Vector2.ONE * (1.0 + hit * 0.08)
 		var bob := sin(beat_phase * TAU) * 4.0 - hit * 8.0
-		d.position.y = size.y * 0.56 - d.size.y + bob
-		d.position.x = _drummer_x(i) - d.size.x * 0.5 + (sin(clock * 90.0) * 5.0 if scare else 0.0)
+		# Animate around the position authored in the scene instead of a hardcoded lane.
+		var base := Vector2(
+			d.anchor_left * size.x + drummer_offsets[i].x,
+			d.anchor_top * size.y + drummer_offsets[i].y
+		)
+		d.position = base + Vector2(sin(clock * 90.0) * 5.0 if scare else 0.0, bob)
 	var by := sin(clock * 6.0) * 4.0
 	$Drummer1/YouLabel.position.y = -34.0 + by
 
@@ -491,8 +545,13 @@ func _goto_result_data() -> void:
 
 # ---------------------------------------------------------------- drawing
 
+func _snap(v: float) -> int:
+	# Pixel fonts stay crisp on a multiple-of-8 grid; round every drawn size to it.
+	return maxi(8, int(roundf(v / 8.0)) * 8)
+
+
 func _text(s: String, pos: Vector2, fs: int, col: Color, align := HORIZONTAL_ALIGNMENT_CENTER, outline := true) -> void:
-	var font := ThemeDB.fallback_font
+	var font: Font = GAME_FONT
 	var w := size.x
 	var p := pos
 	if align == HORIZONTAL_ALIGNMENT_CENTER:
@@ -500,7 +559,7 @@ func _text(s: String, pos: Vector2, fs: int, col: Color, align := HORIZONTAL_ALI
 	elif align == HORIZONTAL_ALIGNMENT_RIGHT:
 		p.x -= w
 	if outline:
-		draw_string_outline(font, p, s, align, w, fs, maxi(4, fs / 6), Color(0, 0, 0, 0.7))
+		draw_string_outline(font, p, s, align, w, fs, maxi(2, fs / 8), Color(0, 0, 0, 0.7))
 	draw_string(font, p, s, align, w, fs, col)
 
 
@@ -534,7 +593,7 @@ func _draw() -> void:
 
 	for f in floats:
 		var k := 1.0 - float(f.life) / float(f.max)
-		_text(f.text, f.pos - Vector2(0, k * 60.0), int(R * 0.55 * float(f.big)), Color(f.col, 1.0 - k * k))
+		_text(f.text, f.pos - Vector2(0, k * 60.0), _snap(R * 0.55 * float(f.big)), Color(f.col, 1.0 - k * k))
 	_draw_hud(cx, cy)
 
 	if flash > 0.0 and not Save.settings.reduce_flash:
@@ -563,8 +622,8 @@ func _draw_circle_target(c: Vector2, pulse: float) -> void:
 		var prog := clampf(float(hold.note.taps) / float(hold.note.need), 0.0, 1.0)
 		draw_arc(c, r * 1.15, 0.0, TAU, 64, Color(0, 0, 0, 0.4), 8.0, true)
 		draw_arc(c, r * 1.15, -PI * 0.5, -PI * 0.5 + prog * TAU, 64, Color(0.4, 1, 0.55) if prog >= 1.0 else Color(1, 0.7, 0.2), 8.0, true)
-	_text("D" if true else "", c + Vector2(-R * 2.6, R * 0.15), int(R * 0.5), Color(1, 1, 1, 0.6))
-	_text("K", c + Vector2(R * 2.6, R * 0.15), int(R * 0.5), Color(1, 1, 1, 0.6))
+	_text("D" if true else "", c + Vector2(-R * 2.6, R * 0.15), _snap(R * 0.5), Color(1, 1, 1, 0.6))
+	_text("K", c + Vector2(R * 2.6, R * 0.15), _snap(R * 0.5), Color(1, 1, 1, 0.6))
 
 
 func _next_target_note() -> Dictionary:
@@ -614,7 +673,7 @@ func _draw_bomb(p: Vector2, r: float, a: float) -> void:
 	draw_arc(p, r * 0.9, 0.0, TAU, 32, Color(COL_BOMB, a), r * 0.16, true)
 	draw_line(p + Vector2(r * 0.2, -r * 0.8), p + Vector2(r * 0.7, -r * 1.15), Color(0.85, 0.7, 0.4, a), r * 0.14)
 	draw_circle(p + Vector2(r * 0.75, -r * 1.2), r * (0.16 + pl * 0.1), Color(1, 0.9, 0.3, a))
-	_text("!", p + Vector2(0, r * 0.35), int(r * 1.1), Color(1, 0.2, 0.2, a), HORIZONTAL_ALIGNMENT_CENTER, false)
+	_text("!", p + Vector2(0, r * 0.35), _snap(r * 1.1), Color(1, 0.2, 0.2, a), HORIZONTAL_ALIGNMENT_CENTER, false)
 
 
 func _draw_long(x1: float, x2: float, y: float, r: float, a: float, n: Dictionary) -> void:
@@ -633,39 +692,42 @@ func _draw_long(x1: float, x2: float, y: float, r: float, a: float, n: Dictionar
 		draw_circle(hp, r * 0.85, Color(1, 1, 1, a * 0.9))
 		draw_arc(hp, r * 0.85, 0.0, TAU, 24, Color(COL_ROLL.darkened(0.2), a), r * 0.18, true)
 	var label := "%d / %d" % [n.taps, n.need] if n.started else "MASH!"
-	_text(label, Vector2((x1 + x2) * 0.5, y + r * 0.3), int(r * 0.9), Color(1, 1, 1, a), HORIZONTAL_ALIGNMENT_CENTER, false)
+	_text(label, Vector2((x1 + x2) * 0.5, y + r * 0.3), _snap(r * 0.9), Color(1, 1, 1, a), HORIZONTAL_ALIGNMENT_CENTER, false)
 
 
 func _draw_hud(cx: float, cy: float) -> void:
 	var W := size.x
-	var fs := int(clampf(W * 0.035, 16.0, 30.0))
+	var fs := _snap(clampf(W * 0.035, 16.0, 32.0))
 	var low := cash < float(start_cash) * 0.25
 	var pulse := 0.6 + 0.4 * sin(clock * 8.0)
-	_text("CASH %s" % _commas(roundi(cash)), Vector2(16, 16 + fs), int(fs * 1.2), Color(1, 0.3, 0.3, pulse) if low else Color(1, 0.9, 0.4), HORIZONTAL_ALIGNMENT_LEFT)
+	_text("CASH %s" % _commas(roundi(cash)), Vector2(16, 16 + fs), _snap(fs * 1.25), Color(1, 0.3, 0.3, pulse) if low else Color(1, 0.9, 0.4), HORIZONTAL_ALIGNMENT_LEFT)
 	if low:
-		_text("LOW CASH!", Vector2(16, 20 + fs * 2.2), int(fs * 0.7), Color(1, 0.3, 0.3), HORIZONTAL_ALIGNMENT_LEFT)
-	_text(_commas(score), Vector2(cx, 16 + fs), int(fs * 1.1), Color.WHITE)
+		_text("LOW CASH!", Vector2(16, 20 + fs * 2.2), _snap(fs * 0.75), Color(1, 0.3, 0.3), HORIZONTAL_ALIGNMENT_LEFT)
+	_text(_commas(score), Vector2(cx, 16 + fs), _snap(fs * 1.15), Color.WHITE)
 	if combo > 1:
-		_text("%d COMBO%s" % [combo, "  x2" if fever else ""], Vector2(cx, 20 + fs * 2.1), int(fs * 0.7), Color(0.5, 1, 0.7) if combo >= 10 else Color(0.8, 0.75, 1))
+		_text("%d COMBO%s" % [combo, "  x2" if fever else ""], Vector2(cx, 20 + fs * 2.1), _snap(fs * 0.75), Color(0.5, 1, 0.7) if combo >= 10 else Color(0.8, 0.75, 1))
 	var mw := minf(W * 0.5, 360.0)
 	var mx := cx - mw * 0.5
 	var my := 24.0 + fs * 2.6
-	draw_rect(Rect2(mx, my, mw, 14), Color(0, 0, 0, 0.5))
+	var bh := 16.0
+	draw_rect(Rect2(mx, my, mw, bh), Color(0, 0, 0, 0.5))
 	var fp := clampf((fever_end - song_time) / maxf(0.01, fever_dur), 0.0, 1.0) if fever else clampf(float(charge) / float(FEVER_NEED), 0.0, 1.0)
-	draw_rect(Rect2(mx, my, mw * fp, 14), Color(1, 0.95, 0.4) if fever else Color(1, 0.6, 0.15))
-	draw_rect(Rect2(mx, my, mw, 14), Color.WHITE if fever else Color(1, 1, 1, 0.5), false, 2.0)
-	_text("FEVER MODE!" if fever else "FEVER", Vector2(cx, my + 14 + fs * 0.7), int(fs * 0.6), Color(1, 0.95, 0.4))
-	_text("SHIELDS x%d" % int(Save.shields), Vector2(W - 16, 16 + fs), int(fs * 0.8), Color(0.6, 0.9, 1), HORIZONTAL_ALIGNMENT_RIGHT)
-	_text("LEVEL %d  %s" % [level, cfg.name], Vector2(W - 16, 20 + fs * 1.9), int(fs * 0.55), Color(1, 1, 1, 0.7), HORIZONTAL_ALIGNMENT_RIGHT)
+	draw_rect(Rect2(mx, my, mw * fp, bh), Color(1, 0.95, 0.4) if fever else Color(1, 0.6, 0.15))
+	for seg in range(1, int(mw / 16.0)):
+		draw_rect(Rect2(mx + seg * 16.0, my, 2.0, bh), Color(0, 0, 0, 0.35))
+	draw_rect(Rect2(mx, my, mw, bh), Color.WHITE if fever else Color(1, 1, 1, 0.5), false, 4.0)
+	_text("FEVER MODE!" if fever else "FEVER", Vector2(cx, my + bh + fs * 0.7), _snap(fs * 0.65), Color(1, 0.95, 0.4))
+	_text("SHIELDS x%d" % int(Save.shields), Vector2(W - 16, 16 + fs), _snap(fs * 0.8), Color(0.6, 0.9, 1), HORIZONTAL_ALIGNMENT_RIGHT)
+	_text("LEVEL %d  %s" % [level, cfg.name], Vector2(W - 16, 20 + fs * 1.9), _snap(fs * 0.6), Color(1, 1, 1, 0.7), HORIZONTAL_ALIGNMENT_RIGHT)
 	draw_rect(Rect2(0, 0, W * clampf(song_time / end_time, 0.0, 1.0), 4), Color(1, 1, 1, 0.3))
 	if song_time < 0.0:
 		var c := ceili(-song_time / spb)
 		if c >= 1 and c <= 3:
-			_text(str(c), Vector2(cx, size.y * 0.42), int(R * 1.6), Color(1, 1, 1, 0.9))
+			_text(str(c), Vector2(cx, size.y * 0.42), _snap(R * 1.6), Color(1, 1, 1, 0.9))
 	if clock < hint_until and Save.settings.hints:
-		_text(hint_text, Vector2(cx, size.y * 0.9), int(fs * 0.85), Color.WHITE)
+		_text(hint_text, Vector2(cx, size.y * 0.9), _snap(fs * 0.85), Color.WHITE)
 	elif song_time > 0.0:
-		_text("D = left   K = right   (or click / touch left and right halves)   Esc = pause", Vector2(cx, size.y - 8), int(fs * 0.5), Color(1, 1, 1, 0.45), HORIZONTAL_ALIGNMENT_CENTER, false)
+		_text("D = left   K = right   (or click / touch left and right halves)   Esc = pause", Vector2(cx, size.y - 8), _snap(fs * 0.5), Color(1, 1, 1, 0.45), HORIZONTAL_ALIGNMENT_CENTER, false)
 	if low:
 		draw_rect(Rect2(0, 0, W, size.y), Color(1, 0, 0, 0.1 * pulse), false, 14.0)
 

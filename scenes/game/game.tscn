@@ -1,13 +1,13 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dm5kh4guhd8ab"]
 
-[ext_resource type="Script" path="res://scenes/game/game.gd" id="1_game"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/enviroment/without npc/tutorial-stage.png" id="2_stage"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/red/red-kompang.png" id="3_red"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/blue/blue-kompang.png" id="4_blue"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/brown/brown-kompang.png" id="5_brown"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/yellow/yellow-kompang.png" id="6_yellow"]
+[ext_resource type="Script" uid="uid://bhhgnfxpoml56" path="res://scenes/game/game.gd" id="1_game"]
+[ext_resource type="Texture2D" uid="uid://2fxe2lfpt2fp" path="res://assets/Libraries/enviroment/without npc/tutorial-stage.png" id="2_stage"]
+[ext_resource type="Texture2D" uid="uid://b3sy1bh4q4eya" path="res://assets/Libraries/sprites/red/red-kompang.png" id="3_red"]
+[ext_resource type="Texture2D" uid="uid://b82v81r2uuywu" path="res://assets/Libraries/sprites/blue/blue-kompang.png" id="4_blue"]
+[ext_resource type="Texture2D" uid="uid://cb65djhjm8j7m" path="res://assets/Libraries/sprites/brown/brown-kompang.png" id="5_brown"]
+[ext_resource type="Texture2D" uid="uid://dwjmqn7p5kolf" path="res://assets/Libraries/sprites/yellow/yellow-kompang.png" id="6_yellow"]
 
-[node name="Game" type="Control"]
+[node name="Game" type="Control" unique_id=662683365]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_game")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1880236854]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -29,7 +29,7 @@ texture = ExtResource("2_stage")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=654417976]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -40,7 +40,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.25)
 
-[node name="Drummer0" type="TextureRect" parent="."]
+[node name="Drummer0" type="TextureRect" parent="." unique_id=1372426097]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = -1
@@ -48,15 +48,16 @@ anchor_left = 0.09
 anchor_top = 0.56
 anchor_right = 0.09
 anchor_bottom = 0.56
-offset_left = -90.0
-offset_top = -270.0
-offset_right = 90.0
+offset_left = 77.31999
+offset_top = -60.880005
+offset_right = 205.885
+offset_bottom = 209.12
 mouse_filter = 2
 texture = ExtResource("3_red")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Drummer1" type="TextureRect" parent="."]
+[node name="Drummer1" type="TextureRect" parent="." unique_id=1992803019]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = -1
@@ -64,15 +65,16 @@ anchor_left = 0.27
 anchor_top = 0.56
 anchor_right = 0.27
 anchor_bottom = 0.56
-offset_left = -90.0
-offset_top = -270.0
-offset_right = 90.0
+offset_left = -21.040009
+offset_top = -98.880005
+offset_right = 107.524994
+offset_bottom = 171.12
 mouse_filter = 2
 texture = ExtResource("4_blue")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="YouLabel" type="Label" parent="Drummer1"]
+[node name="YouLabel" type="Label" parent="Drummer1" unique_id=1179167036]
 show_behind_parent = true
 layout_mode = 0
 offset_left = 40.0
@@ -85,7 +87,7 @@ theme_override_constants/outline_size = 6
 text = "YOU"
 horizontal_alignment = 1
 
-[node name="Drummer2" type="TextureRect" parent="."]
+[node name="Drummer2" type="TextureRect" parent="." unique_id=1900931430]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = -1
@@ -93,15 +95,16 @@ anchor_left = 0.73
 anchor_top = 0.56
 anchor_right = 0.73
 anchor_bottom = 0.56
-offset_left = -90.0
-offset_top = -270.0
-offset_right = 90.0
+offset_left = -134.96002
+offset_top = -99.880005
+offset_right = -6.3950806
+offset_bottom = 170.12
 mouse_filter = 2
 texture = ExtResource("5_brown")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Drummer3" type="TextureRect" parent="."]
+[node name="Drummer3" type="TextureRect" parent="." unique_id=828477838]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = -1
@@ -109,9 +112,10 @@ anchor_left = 0.91
 anchor_top = 0.56
 anchor_right = 0.91
 anchor_bottom = 0.56
-offset_left = -90.0
-offset_top = -270.0
-offset_right = 90.0
+offset_left = -228.32007
+offset_top = -53.880005
+offset_right = -99.75513
+offset_bottom = 216.12
 mouse_filter = 2
 texture = ExtResource("6_yellow")
 expand_mode = 1

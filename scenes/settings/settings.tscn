@@ -51,7 +51,7 @@ layout_mode = 2
 
 [node name="BackButton" type="Button" parent="Root/Bar"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "< BACK"
 
 [node name="Title" type="Label" parent="Root/Bar"]
@@ -60,7 +60,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
 theme_override_colors/font_outline_color = Color(0.2, 0.04, 0.3, 1)
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 40
 text = "SETTINGS"
 horizontal_alignment = 1
 
@@ -72,7 +72,7 @@ custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Master volume"
 
 [node name="Slider" type="HSlider" parent="Root/master"]
@@ -95,7 +95,7 @@ custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Music volume"
 
 [node name="Slider" type="HSlider" parent="Root/music"]
@@ -118,7 +118,7 @@ custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Drum effects volume"
 
 [node name="Slider" type="HSlider" parent="Root/sfx"]
@@ -137,39 +137,39 @@ text = "0"
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Background music"
 
 [node name="sfx_on" type="CheckBox" parent="Root"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Sound effects"
 
 [node name="assist" type="CheckBox" parent="Root"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Assist mode (wider timing windows)"
 
 [node name="reduce_flash" type="CheckBox" parent="Root"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Reduce screen flashing"
 
 [node name="hints" type="CheckBox" parent="Root"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Show tutorial hints"
 
 [node name="ResetButton" type="Button" parent="Root"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "RESET ALL PROGRESS"

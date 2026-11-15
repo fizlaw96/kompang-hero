@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b0dvlki7n5p3m"]
+
+[ext_resource type="PackedScene" uid="uid://dm5kh4guhd8ab" path="res://scenes/game/game.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://dnqdcofkcnfao" path="res://assets/Libraries/enviroment/with npc/npc-hall-stage.png" id="2_dn67k"]
+
+[node name="Level1" unique_id=1043797268 instance=ExtResource("1_base")]
+
+[node name="Background" parent="." index="0" unique_id=1880236854]
+texture = ExtResource("2_dn67k")
+
+[node name="Drummer0" parent="." index="2" unique_id=1694768823]
+offset_left = 77.31999
+offset_top = -60.880005
+offset_right = 205.885
+offset_bottom = 209.12
+
+[node name="Drummer1" parent="." index="3" unique_id=767368644]
+offset_left = -21.040009
+offset_top = -98.880005
+offset_right = 107.524994
+offset_bottom = 171.12
+
+[node name="Drummer2" parent="." index="4" unique_id=1664023681]
+offset_left = -134.96002
+offset_top = -99.880005
+offset_right = -6.3950806
+offset_bottom = 170.12
+
+[node name="Drummer3" parent="." index="5" unique_id=1544085665]
+offset_left = -228.32007
+offset_top = -53.880005
+offset_right = -99.75513
+offset_bottom = 216.12
+
+[node name="Cutscene" type="CanvasLayer" parent="." index="6" unique_id=195261306]

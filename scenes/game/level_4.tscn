@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c7wfjprsl3krh"]
+
+[ext_resource type="PackedScene" uid="uid://dm5kh4guhd8ab" path="res://scenes/game/game.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://co7e2xtcp4sa5" path="res://assets/Libraries/enviroment/without npc/port-klang-stage(secret level).png" id="2_stage"]
+
+[node name="Level4" unique_id=1870823110 instance=ExtResource("1_base")]
+level = 4
+
+[node name="Background" parent="." index="0" unique_id=1880236854]
+texture = ExtResource("2_stage")
+
+[node name="Drummer0" parent="." index="2" unique_id=1372426097]
+offset_left = 193.31999
+offset_top = -173.88
+offset_right = 321.885
+offset_bottom = 96.119995
+
+[node name="Drummer1" parent="." index="3" unique_id=1992803019]
+offset_left = -76.04001
+offset_top = -130.88
+offset_right = 52.524994
+offset_bottom = 139.12
+
+[node name="Drummer2" parent="." index="4" unique_id=1900931430]
+offset_left = -669.96
+offset_top = -75.880005
+offset_right = -541.3951
+offset_bottom = 194.12
+
+[node name="Drummer3" parent="." index="5" unique_id=828477838]
+offset_left = -957.32007
+offset_top = -36.880005
+offset_right = -828.7551
+offset_bottom = 233.12
+
+[node name="Cutscene" type="CanvasLayer" parent="." index="6" unique_id=107754793]

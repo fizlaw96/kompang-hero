@@ -52,7 +52,7 @@ layout_mode = 2
 
 [node name="BackButton" type="Button" parent="Root/Bar"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "< BACK"
 
 [node name="Title" type="Label" parent="Root/Bar"]
@@ -61,7 +61,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
 theme_override_colors/font_outline_color = Color(0.2, 0.04, 0.3, 1)
 theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 40
 text = "SHOP"
 horizontal_alignment = 1
 
@@ -70,7 +70,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 24
 
 [node name="List" type="VBoxContainer" parent="Root"]
 layout_mode = 2

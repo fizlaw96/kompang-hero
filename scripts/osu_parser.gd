@@ -1,7 +1,8 @@
 extends RefCounted
 
 # Minimal osu!mania (.osu) reader. Only 2K maps are accepted.
-# Returns {ok, error, title, audio, keys, notes:[{time (s), column, end (s, or -1 for taps)}]}.
+# Returns {ok, error, title, audio, bpm, keys, notes:[{time (s), column, end (s, or -1 for taps)}]}.
+# bpm comes from the first uninherited timing point (falls back to 120).
 
 static func parse(path: String) -> Dictionary:
 	var text := FileAccess.get_file_as_string(path)
@@ -12,6 +13,7 @@ static func parse(path: String) -> Dictionary:
 	var section := ""
 	var sections := {"General": {}, "Metadata": {}, "Difficulty": {}}
 	var raw_objects: Array[String] = []
+	var raw_timing: Array[String] = []
 
 	for raw_line in text.split("\n"):
 		var line := raw_line.strip_edges()
@@ -22,6 +24,8 @@ static func parse(path: String) -> Dictionary:
 			continue
 		if section == "HitObjects":
 			raw_objects.append(line)
+		elif section == "TimingPoints":
+			raw_timing.append(line)
 		elif sections.has(section):
 			var idx := line.find(":")
 			if idx > 0:
@@ -37,6 +41,19 @@ static func parse(path: String) -> Dictionary:
 	var keys := roundi(float(difficulty.get("CircleSize", "0")))
 	if keys != 2:
 		return {"ok": false, "error": "Only 2K maps are supported (this map is %dK)" % keys}
+
+	# Uninherited timing points have a positive beat length in milliseconds per beat.
+	var bpm := 0.0
+	for line in raw_timing:
+		var tp := line.split(",")
+		if tp.size() < 2:
+			continue
+		var beat_length := float(tp[1])
+		if beat_length > 0.0:
+			bpm = 60000.0 / beat_length
+			break
+	if bpm <= 0.0:
+		bpm = 120.0
 
 	var notes: Array[Dictionary] = []
 	for line in raw_objects:
@@ -63,4 +80,4 @@ static func parse(path: String) -> Dictionary:
 	var version: String = metadata.get("Version", "")
 	if not version.is_empty():
 		title += " [%s]" % version
-	return {"ok": true, "error": "", "title": title, "audio": general.get("AudioFilename", ""), "keys": keys, "notes": notes}
+	return {"ok": true, "error": "", "title": title, "audio": general.get("AudioFilename", ""), "bpm": bpm, "keys": keys, "notes": notes}

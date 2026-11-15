@@ -1,5 +1,7 @@
 extends Control
 
+const Levels := preload("res://scripts/levels.gd")
+
 var res: Dictionary
 var secret_shown := false
 var unlocked_secret := false
@@ -59,7 +61,7 @@ func _fill() -> void:
 
 	retry_button.pressed.connect(func() -> void:
 		Save.current_level = int(res.level)
-		_go("res://scenes/game/game.tscn"))
+		_go(Levels.game_scene(int(res.level))))
 	levels_button.pressed.connect(func() -> void: _go("res://scenes/levels/levels.tscn"))
 
 	if res.level == 4:

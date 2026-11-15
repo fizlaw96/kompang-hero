@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cspp8o7iwmuyw"]
 
 [ext_resource type="Script" uid="uid://jd8ftdc74ef2" path="res://scenes/menu/menu.gd" id="1_menu"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/enviroment/without npc/wedding-hall-stage.png" id="2_bg"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/blue/blue-kompang.png" id="3_blue"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/sprites/red/red-kompang.png" id="4_red"]
+[ext_resource type="Texture2D" uid="uid://fnm50fbad2b2" path="res://assets/Libraries/enviroment/without npc/wedding-hall-stage.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://b82v81r2uuywu" path="res://assets/Libraries/sprites/blue/blue-kompang.png" id="3_blue"]
+[ext_resource type="Texture2D" uid="uid://b3sy1bh4q4eya" path="res://assets/Libraries/sprites/red/red-kompang.png" id="4_red"]
 
 [node name="Menu" type="Control" unique_id=1166359145]
 layout_mode = 3
@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=418513164]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +26,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=2133873576]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,7 +36,8 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.1, 0.02, 0.2, 0.55)
 
-[node name="BlueDrummer" type="TextureRect" parent="."]
+[node name="BlueDrummer" type="TextureRect" parent="." unique_id=169353769]
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -51,7 +52,8 @@ texture = ExtResource("3_blue")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RedDrummer" type="TextureRect" parent="."]
+[node name="RedDrummer" type="TextureRect" parent="." unique_id=1236670468]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -69,7 +71,7 @@ texture = ExtResource("4_red")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Stats" type="Label" parent="."]
+[node name="Stats" type="Label" parent="." unique_id=803921615]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -81,59 +83,51 @@ theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
-[node name="Box" type="VBoxContainer" parent="."]
+[node name="Box" type="VBoxContainer" parent="." unique_id=1223623345]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -180.0
+offset_left = -360.0
 offset_top = 60.0
-offset_right = 180.0
+offset_right = 360.0
 offset_bottom = 460.0
 grow_horizontal = 2
 theme_override_constants/separation = 14
 
-[node name="Title" type="Label" parent="Box"]
+[node name="Title" type="Label" parent="Box" unique_id=473013748]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
 theme_override_colors/font_outline_color = Color(0.2, 0.04, 0.3, 1)
 theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "KOMPANG HERO"
 horizontal_alignment = 1
 
-[node name="Tagline" type="Label" parent="Box"]
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
-text = "Join the band. Keep the rhythm."
-horizontal_alignment = 1
-
-[node name="Spacer" type="Control" parent="Box"]
+[node name="Spacer" type="Control" parent="Box" unique_id=171556923]
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 
-[node name="PlayButton" type="Button" parent="Box"]
+[node name="PlayButton" type="Button" parent="Box" unique_id=1879404471]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 24
 text = "PLAY"
 
-[node name="SettingsButton" type="Button" parent="Box"]
+[node name="SettingsButton" type="Button" parent="Box" unique_id=954206457]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 24
 text = "SETTINGS"
 
-[node name="HelpButton" type="Button" parent="Box"]
+[node name="HelpButton" type="Button" parent="Box" unique_id=1374776883]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 24
 text = "HELP"
 
-[node name="QuitButton" type="Button" parent="Box"]
+[node name="QuitButton" type="Button" parent="Box" unique_id=1054534581]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 24
 text = "QUIT"

@@ -5,7 +5,7 @@ extends Control
 # Charts come from an osu!mania 2K map (column 0 = left / D, column 1 = right / K).
 # Hold notes become purple SPAM notes: mash the key until the bar has passed through the circle.
 
-const OsuParser := preload("res://scenes/prototype/osu_parser.gd")
+const OsuParser := preload("res://scripts/osu_parser.gd")
 
 const NOTE_SPEED := 320.0        # px / second
 const PERFECT_RATIO := 0.3       # perfect window = this fraction of the circle radius
@@ -26,6 +26,9 @@ const COLOR_ROLL := Color(0.65, 0.3, 0.95)
 # Used when no .osu map is found.
 const FALLBACK_PATTERN := [-1, 1, -1, 0, 1, 1, -1, -1, 1, 0, -1, 1]
 const FALLBACK_GAP := 0.6
+
+## Optional .osu file for this prototype; when empty the maps/ folder or fallback is used.
+@export_file("*.osu") var chart_override := ""
 
 @onready var bar: Panel = $Panel
 @onready var center_panel: Panel = $Panel/CENTER
@@ -61,8 +64,8 @@ func _ready() -> void:
 	good_late = radius * GOOD_LATE_RATIO
 	perfect_dist = radius * PERFECT_RATIO
 
-	judge_label = _make_label(52, 60)
-	info_label = _make_label(28, 130)
+	judge_label = _make_label(56, 60)
+	info_label = _make_label(32, 130)
 	_make_key_hint("D", Vector2(-48, 22))
 	_make_key_hint("K", Vector2(center_panel.size.x + 20, 22))
 
@@ -99,6 +102,8 @@ func _load_chart() -> void:
 
 
 func _find_map() -> String:
+	if not chart_override.is_empty():
+		return chart_override
 	var args := OS.get_cmdline_user_args()
 	if args.size() > 0:
 		return args[0]
@@ -140,7 +145,7 @@ func _make_label(font_size: int, top: float) -> Label:
 func _make_key_hint(text: String, pos: Vector2) -> void:
 	var label := Label.new()
 	label.text = text
-	label.add_theme_font_size_override("font_size", 28)
+	label.add_theme_font_size_override("font_size", 32)
 	center_panel.add_child(label)
 	label.position = pos
 
@@ -249,7 +254,7 @@ func _spawn_note(entry: Dictionary) -> void:
 		label = Label.new()
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.add_theme_font_size_override("font_size", 22)
+		label.add_theme_font_size_override("font_size", 24)
 		label.add_theme_color_override("font_color", Color.WHITE)
 		node.add_child(label)
 		label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

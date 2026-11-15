@@ -1,10 +1,10 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://ee1hapcxw85r"]
 
-[ext_resource type="Script" path="res://scenes/levels/levels.gd" id="1_levels"]
-[ext_resource type="Texture2D" path="res://assets/Libraries/enviroment/without npc/wedding-royale-stage.png" id="2_bg"]
+[ext_resource type="Script" uid="uid://3qqjtul4vkps" path="res://scenes/levels/levels.gd" id="1_levels"]
+[ext_resource type="Texture2D" uid="uid://dmrnvargigu41" path="res://assets/Libraries/enviroment/without npc/wedding-royale-stage.png" id="2_bg"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_card.tscn" id="3_card"]
 
-[node name="Levels" type="Control"]
+[node name="Levels" type="Control" unique_id=1911828008]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_levels")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=431197843]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Dim" type="ColorRect" parent="."]
+[node name="Dim" type="ColorRect" parent="." unique_id=1717152028]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +35,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.1, 0.02, 0.2, 0.6)
 
-[node name="Root" type="VBoxContainer" parent="."]
+[node name="Root" type="VBoxContainer" parent="." unique_id=66676751]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,102 +48,102 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 14
 
-[node name="Bar" type="HBoxContainer" parent="Root"]
+[node name="Bar" type="HBoxContainer" parent="Root" unique_id=1177307076]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="BackButton" type="Button" parent="Root/Bar"]
+[node name="BackButton" type="Button" parent="Root/Bar" unique_id=804186720]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "< BACK"
 
-[node name="Title" type="Label" parent="Root/Bar"]
+[node name="Title" type="Label" parent="Root/Bar" unique_id=716760907]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
 theme_override_colors/font_outline_color = Color(0.2, 0.04, 0.3, 1)
 theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 40
 text = "SELECT LEVEL"
 horizontal_alignment = 1
 
-[node name="ShopButton" type="Button" parent="Root/Bar"]
+[node name="ShopButton" type="Button" parent="Root/Bar" unique_id=1304502014]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 text = "SHOP"
 
-[node name="Info" type="HBoxContainer" parent="Root"]
+[node name="Info" type="HBoxContainer" parent="Root" unique_id=428283463]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="CashLabel" type="Label" parent="Root/Info"]
+[node name="CashLabel" type="Label" parent="Root/Info" unique_id=1152439765]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 24
 
-[node name="StarsLabel" type="Label" parent="Root/Info"]
+[node name="StarsLabel" type="Label" parent="Root/Info" unique_id=2056873043]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 
-[node name="Ladder" type="VBoxContainer" parent="Root"]
+[node name="Ladder" type="VBoxContainer" parent="Root" unique_id=1867194425]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Wrap4" type="CenterContainer" parent="Root/Ladder"]
+[node name="Wrap4" type="CenterContainer" parent="Root/Ladder" unique_id=266573008]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Card" parent="Root/Ladder/Wrap4" instance=ExtResource("3_card")]
+[node name="Card" parent="Root/Ladder/Wrap4" unique_id=595227959 instance=ExtResource("3_card")]
 layout_mode = 2
 
-[node name="Link4" type="CenterContainer" parent="Root/Ladder"]
+[node name="Link4" type="CenterContainer" parent="Root/Ladder" unique_id=1037900396]
 layout_mode = 2
 
-[node name="Bridge" type="ColorRect" parent="Root/Ladder/Link4"]
+[node name="Bridge" type="ColorRect" parent="Root/Ladder/Link4" unique_id=1916758487]
 custom_minimum_size = Vector2(10, 14)
 layout_mode = 2
 
-[node name="Wrap3" type="CenterContainer" parent="Root/Ladder"]
+[node name="Wrap3" type="CenterContainer" parent="Root/Ladder" unique_id=117909380]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Card" parent="Root/Ladder/Wrap3" instance=ExtResource("3_card")]
+[node name="Card" parent="Root/Ladder/Wrap3" unique_id=611769989 instance=ExtResource("3_card")]
 layout_mode = 2
 
-[node name="Link3" type="CenterContainer" parent="Root/Ladder"]
+[node name="Link3" type="CenterContainer" parent="Root/Ladder" unique_id=1544052497]
 layout_mode = 2
 
-[node name="Bridge" type="ColorRect" parent="Root/Ladder/Link3"]
+[node name="Bridge" type="ColorRect" parent="Root/Ladder/Link3" unique_id=940301926]
 custom_minimum_size = Vector2(10, 14)
 layout_mode = 2
 
-[node name="Wrap2" type="CenterContainer" parent="Root/Ladder"]
+[node name="Wrap2" type="CenterContainer" parent="Root/Ladder" unique_id=1183429757]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Card" parent="Root/Ladder/Wrap2" instance=ExtResource("3_card")]
+[node name="Card" parent="Root/Ladder/Wrap2" unique_id=282965209 instance=ExtResource("3_card")]
 layout_mode = 2
 
-[node name="Link2" type="CenterContainer" parent="Root/Ladder"]
+[node name="Link2" type="CenterContainer" parent="Root/Ladder" unique_id=5352509]
 layout_mode = 2
 
-[node name="Bridge" type="ColorRect" parent="Root/Ladder/Link2"]
+[node name="Bridge" type="ColorRect" parent="Root/Ladder/Link2" unique_id=1216429540]
 custom_minimum_size = Vector2(10, 14)
 layout_mode = 2
 
-[node name="Wrap1" type="CenterContainer" parent="Root/Ladder"]
+[node name="Wrap1" type="CenterContainer" parent="Root/Ladder" unique_id=872567087]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Card" parent="Root/Ladder/Wrap1" instance=ExtResource("3_card")]
+[node name="Card" parent="Root/Ladder/Wrap1" unique_id=137784452 instance=ExtResource("3_card")]
 layout_mode = 2

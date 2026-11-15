@@ -28,6 +28,12 @@ const SHOP := [
 ]
 
 
+# Scene entry point for a level. Each level has its own scene so it can carry its own
+# stage art, exported chart, or cutscene setup; gameplay itself lives in scenes/game/game.tscn.
+static func game_scene(level: int) -> String:
+	return "res://scenes/game/level_%d.tscn" % clampi(level, 1, LEVELS.size())
+
+
 static func shop_effect(id: String, lv: int) -> String:
 	match id:
 		"circle": return "+%d%% target size and timing windows" % (lv * 15)
