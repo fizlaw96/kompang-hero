@@ -10,6 +10,7 @@ tutorial_title = "NEW: BOMBS"
 tutorial_text = "RED bombs with a flashing warning ring are traps.\n\nDo NOT press that lane when a bomb reaches the circle. Hitting one fails the level instantly.\n\nLetting a bomb pass is perfectly safe. A Bomb Shield from the shop blocks one hit."
 music = ExtResource("9_song")
 chart_file = "res://maps/level3.osu"
+note_speed = 1.3
 tutorial_demo = "bomb"
 level = 3
 

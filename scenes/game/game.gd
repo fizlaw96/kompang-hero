@@ -36,6 +36,10 @@ const COL_BOMB := Color(0.9, 0.12, 0.12)
 ## The .osu file's first uninherited timing point sets the scroll speed and music pitch.
 @export_file("*.osu") var chart_file := ""
 
+@export_group("Difficulty")
+## Scales how fast notes scroll toward the circle. Below 1 is slower, above 1 is faster.
+@export_range(0.3, 2.5, 0.05) var note_speed := 1.0
+
 @export_group("Tutorial")
 ## Shown when the level opens; gameplay waits until START is pressed. Leave the title empty for no tutorial.
 @export var tutorial_title := ""
@@ -245,7 +249,7 @@ func _layout() -> void:
 	good_late = R * GOOD_LATE_RATIO * (1.4 if Save.settings.assist else 1.0)
 	perfect_dist = R * PERFECT_RATIO
 	bomb_dist = R * BOMB_RATIO
-	speed = (size.x * 0.5) / (3.6 * spb)
+	speed = (size.x * 0.5) / (3.6 * spb) * note_speed
 
 
 func _drummer_x(i: int) -> float:

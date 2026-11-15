@@ -10,6 +10,7 @@ tutorial_title = "NEW: LONG NOTES"
 tutorial_text = "A stretched PURPLE note is a long note.\n\nWhen its round head reaches the circle, press that lane's key (D or K), then MASH it quickly until the whole bar has passed.\n\nToo slow counts as a mistake."
 music = ExtResource("9_song")
 chart_file = "res://maps/level2.osu"
+note_speed = 0.7
 tutorial_demo = "long"
 level = 2
 

@@ -8,6 +8,7 @@
 [node name="Level4" unique_id=1870823110 instance=ExtResource("1_base")]
 level = 4
 chart_file = "res://maps/level4.osu"
+note_speed = 1.4
 tutorial_title = "EXPERT"
 tutorial_text = "Normal notes, long notes and bombs all at once.
 
